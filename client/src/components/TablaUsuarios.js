@@ -46,8 +46,8 @@ export default function TablaUsuarios({urlActual}) {
       alias: task.alias,
       contra: task.contra,
       tipuser: task.tipuser,
-      ultimologin: new Date(task.ultimologin).toLocaleString(),
-      creacion: new Date(task.creacion).toLocaleDateString(),
+      ultimologin: new Date(task.ultimologin).toLocaleString("en-za"),
+      creacion: new Date(task.creacion).toLocaleDateString("en-za"),
     };
   });
 
