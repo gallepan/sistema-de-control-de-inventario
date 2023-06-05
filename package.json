@@ -1,0 +1,32 @@
+{
+  "name": "Sistema de Control de Existencias",
+  "version": "1.0.0",
+  "description": "Aplicacion creada para administrar inventario",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browserify-zlib": "^0.2.0",
+    "cors": "^2.8.5",
+    "crypto-browserify": "^3.12.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "fs": "^0.0.1-security",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "pg": "^8.9.0",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
+    "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
