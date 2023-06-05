@@ -1,5 +1,9 @@
 #node js
-node_module
+node_modules
+
+#Ajustes personales
+.vscode
+database
 
 #variables de entorno
 .env
