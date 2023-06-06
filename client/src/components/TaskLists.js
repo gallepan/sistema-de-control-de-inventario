@@ -7,12 +7,13 @@ import TaskCard from "./TaskCard";
 import Lista from "./Lista";
 import ModoVista from "./ModoVista";
 import MenuOrdenar from "./MenuOrdenar";
+import DialogoEntradaSalida from "./DialogoEntradaSalida";
 
 export default function TaskLists({
   taskType,
   searchQuery,
   usuario,
-  urlActual
+  urlActual,
 }) {
   const [tasks, setTasks] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -26,13 +27,14 @@ export default function TaskLists({
   const [searchMonth, setSearchMonth] = useState("");
   const [searchYear, setSearchYear] = useState("");
   const [ordenar, setOrdenar] = useState("DESC");
+  const [selectedAccion, setSelectedAccion] = useState();
 
   const [selectedDate, setSelectedDate] = useState("");
 
   const [addExit, setAddExit] = useState({
     cantidad: "",
     uso: "",
-    recibio: usuario.nombre,
+    recibio: "",
   });
   //Para seleccionar el modo de vista actual
   const [modoVista, setModoVista] = useState(() => {
@@ -66,14 +68,14 @@ export default function TaskLists({
   //Dialogo para añadir nuevas entradas o salidas en el inventario
   const handleOpenDialog = (id, type) => {
     setSelectedCardId(id);
-    setAddExit({recibio: usuario.nombre});
+    // setAddExit({recibio: usuario.nombre});
     setSelectedAction(type);
   };
   const handleCloseDialog = () => {
     setSelectedCardId(null);
-    setAddExit({ cantidad: "", uso: "", recibio: usuario.nombre });
+    setAddExit({ cantidad: "", uso: "", recibio: "" });
   };
-  
+
   const handleQuantityChange = (e) =>
     setAddExit({ ...addExit, [e.target.name]: e.target.value });
 
@@ -81,14 +83,11 @@ export default function TaskLists({
     e.preventDefault();
     setLoading(true);
     //logica de enviar a Salidas o Entradas
-    await fetch(
-      `${urlActual}/tasks/${selectedAction}/${selectedCardId}`,
-      {
-        method: "POST",
-        body: JSON.stringify(addExit),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    await fetch(`${urlActual}/tasks/${selectedAction}/${selectedCardId}`, {
+      method: "POST",
+      body: JSON.stringify(addExit),
+      headers: { "Content-Type": "application/json" },
+    });
     await fetch(`${urlActual}/tasks/`, {
       method: "PUT",
     });
@@ -210,7 +209,21 @@ export default function TaskLists({
       <Grid container spacing={1}>
         {tasks.map((task) =>
           modoVista === "cuadrada" ? (
-            <Grid item key={task.id} xs={15} md={10} lg={4}>
+            <Grid item key={task.id} xs md={4} lg={4}>
+              <DialogoEntradaSalida
+                task={task}
+                taskType={taskType}
+                handleDelete={handleDelete}
+                handleCloseDialog={handleCloseDialog}
+                handleCloseDelete={handleCloseDelete}
+                handleQuantityChange={handleQuantityChange}
+                handleSubmit={handleSubmit}
+                selectedCardDel={selectedCardDel}
+                selectedCardId={selectedCardId}
+                loading={loading}
+                addExit={addExit}
+                selectedAccion={selectedAccion}
+              />
               <TaskCard
                 usuario={usuario}
                 task={task}
@@ -231,10 +244,25 @@ export default function TaskLists({
                 navigate={navigate}
                 addExit={addExit}
                 formatDate={formatDate}
+                setSelectedAccion={setSelectedAccion}
               />
             </Grid>
           ) : (
-            <Grid item key={task.id} xs={12} md={12} lg={12}>
+            <Grid item key={task.id} xs md={12} lg={12}>
+              <DialogoEntradaSalida
+                task={task}
+                taskType={taskType}
+                handleDelete={handleDelete}
+                handleCloseDialog={handleCloseDialog}
+                handleCloseDelete={handleCloseDelete}
+                handleQuantityChange={handleQuantityChange}
+                handleSubmit={handleSubmit}
+                selectedCardDel={selectedCardDel}
+                selectedCardId={selectedCardId}
+                loading={loading}
+                addExit={addExit}
+                selectedAccion={selectedAccion}
+              />
               <Lista
                 usuario={usuario}
                 task={task}
@@ -255,6 +283,7 @@ export default function TaskLists({
                 navigate={navigate}
                 addExit={addExit}
                 formatDate={formatDate}
+                setSelectedAccion={setSelectedAccion}
               />{" "}
             </Grid>
           )
