@@ -5,6 +5,8 @@ const { sessionMiddleware } = require("./session");
 const taskRoutes = require("./routes/tasks.routes");
 const setCookieAttributes = require("./setCookieAttributes");
 
+//const path = require("path");
+
 
 const app = express();
 
@@ -27,7 +29,27 @@ app.use((err, req, res, next) => {
     message: err.message,
   });
 });
+/*
+// Serve the static files from the build directory
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+
+ //Serve the index.html file for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+});*/
+
 
 app.use(setCookieAttributes);
 app.listen(4000);
+/*const backendPort = process.env.PORT || 4000;
+app.listen(backendPort, () => {
+  console.log(`Backend server running on port ${backendPort}`);
+});
+
+// Start the frontend server
+const frontendPort = 3000;
+app.use('/', express.static(path.join(__dirname, '..', 'client', 'build')));
+app.listen(frontendPort, () => {
+  console.log(`Frontend server running on port ${frontendPort}`);
+});*/
 console.log("Server on port 4000");
